@@ -10,5 +10,5 @@ The mcp server will have tools that can access my gmail, youtube history, maybe 
 
 ### How to run the youtube summarizer?
 
-1) Execute `uv run langgrapg_client.py`
+1) Execute `uv run langgraph_client.py`
 2) From there use the ID of the video to ask the LLM to generate the summary.
