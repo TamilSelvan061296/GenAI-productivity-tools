@@ -3,7 +3,7 @@ from mcp.server.fastmcp import FastMCP
 from youtube_transcript_api import YouTubeTranscriptApi
 
 # initialize the MCP server
-mcp = FastMCP("my_custom_mcp_server")
+mcp = FastMCP("youtube_server")
 
 
 # Helper functions

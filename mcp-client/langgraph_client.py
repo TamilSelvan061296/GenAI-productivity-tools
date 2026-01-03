@@ -1,12 +1,11 @@
 import os
-from dotenv import load_dotenv
+import asyncio
 
+from dotenv import load_dotenv
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langgraph.graph import StateGraph, MessagesState, START
 from langgraph.prebuilt import ToolNode, tools_condition
-import asyncio
 from langchain_openai import AzureChatOpenAI
-
 from langgraph.prebuilt import create_react_agent
 
 # load the environmental variables
@@ -24,17 +23,29 @@ llm = AzureChatOpenAI(model_name=os.environ['MODEL_NAME'],
 
 client = MultiServerMCPClient(
     {
-        "my_custom_mcp_server": {
+        "youtube_server": {
             "command": "python",
-            "args": ["/home/tamil/work/youtube-summarizer/server.py"],
+            "args": ["/home/tamil/work/GenAI-productivity-tools/youtube-summarizer/server.py"],
             "transport": "stdio",
         },
+        "filesystem": {
+            "command": "docker",
+            "args": [
+                "run",
+                "-i",
+                "--rm",
+                "--mount", "type=bind,src=/home/tamil/work/GenAI-productivity-tools/youtube-summarizer/knowledge_youtube,dst=/projects/knowledge_youtube",
+                "mcp/filesystem",
+                "/projects/knowledge_youtube"],
+                "transport": "stdio",
+                },
     }
 )
 
 async def main():
+    print("Entering main")
     tools = await client.get_tools()
-
+    print("Bound the tools")
     def call_model(state: MessagesState):
         response = llm.bind_tools(tools).invoke(state["messages"])
         return {"messages": response}
