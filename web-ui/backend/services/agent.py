@@ -101,15 +101,80 @@ class AgentService:
         """Summarize a YouTube video using the agent"""
         prompt = f"""Please summarize the YouTube video with ID: {video_id}
 
+## Instructions
+
 1. First, fetch the transcript using the fetch_youtube_transcript tool
-2. Then, create a comprehensive summary following the standard format with:
-   - A clear title (as H1 heading)
-   - Brief overview paragraph
-   - Key points section (H2 heading with bullet points)
-   - Notable quotes if any
-   - Conclusion or call to action
-3. Save the summary to a markdown file in /projects/knowledge_youtube/ directory using the write_file tool.
-   Use a descriptive filename based on the video title (e.g., /projects/knowledge_youtube/Video_Title_Summary.md)
+
+2. Analyze the transcript and identify the video type from these categories:
+   - **Technical/Tutorial**: Coding, software, how-to guides, demos
+   - **Science/Research**: Studies, experiments, scientific explanations
+   - **Interview/Podcast**: Conversations, Q&A, discussions
+   - **Documentary/Narrative**: Stories, journeys, biographical content
+   - **News/Analysis**: Current events, opinion pieces, market analysis
+   - **Motivational/Self-help**: Personal development, mindset, life advice
+   - **Educational/Explainer**: Concept explanations, lectures, courses
+
+3. Create a summary adapted to the video type:
+
+   **For Technical/Tutorial:**
+   - What problem does it solve? Prerequisites if any
+   - Step-by-step breakdown of the approach
+   - Key code concepts, commands, or techniques
+   - Common pitfalls or tips mentioned
+
+   **For Science/Research:**
+   - What question or hypothesis is explored?
+   - Key findings and the evidence behind them
+   - Methodology overview (if relevant)
+   - Implications and limitations
+
+   **For Interview/Podcast:**
+   - Who are the participants and their background?
+   - Main topics discussed and different viewpoints
+   - Most insightful exchanges or revelations
+   - Key quotes with context
+
+   **For Documentary/Narrative:**
+   - What's the central story or theme?
+   - Key characters or subjects and their journey
+   - Major turning points or revelations
+   - Emotional core and message
+
+   **For News/Analysis:**
+   - What's the main event or topic?
+   - Key facts vs opinions (distinguish clearly)
+   - Different perspectives presented
+   - Implications and what to watch for
+
+   **For Motivational/Self-help:**
+   - Core message or philosophy
+   - Main principles or frameworks
+   - Actionable advice and steps
+   - Personal stories or examples used
+
+   **For Educational/Explainer:**
+   - What concept is being explained?
+   - How is it broken down? (analogies, examples)
+   - Key definitions and relationships
+   - How it connects to broader knowledge
+
+## General Guidelines (Apply to All Types)
+
+- Follow the video's natural flow with smooth transitions
+- Provide context for quotes and key points
+- Focus on extracting real knowledge and actionable takeaways
+- Write coherently, not as disconnected bullet points
+
+## Format
+
+- Title (H1): Capture the video's essence
+- Video Type: [Detected type] (in italics, right after title)
+- Overview paragraph
+- Main content sections (H2) appropriate to the type
+- Key Takeaways section
+
+4. Save the summary to /projects/knowledge_youtube/ using write_file tool.
+   Filename: /projects/knowledge_youtube/[Descriptive_Title].md
 
 Return a confirmation when complete."""
 
