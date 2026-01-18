@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI Productivity Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>GenAI Productivity Tools</h1>
+            <nav class="tabs">
+                <button class="tab active" data-tab="browse">Browse Summaries</button>
+                <button class="tab" data-tab="chat">Chat</button>
+                <button class="tab" data-tab="summarize">New Summary</button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Browse Tab -->
+            <section id="browse-tab" class="tab-content active">
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search summaries...">
+                    <button id="search-btn">Search</button>
+                    <button id="clear-search-btn">Clear</button>
+                </div>
+                <div id="summaries-list" class="summaries-grid">
+                    <!-- Populated by JS -->
+                </div>
+                <div id="summary-viewer" class="summary-viewer hidden">
+                    <button id="back-btn">&larr; Back to list</button>
+                    <div id="summary-content"></div>
+                </div>
+            </section>
+
+            <!-- Chat Tab -->
+            <section id="chat-tab" class="tab-content">
+                <div id="chat-status" class="chat-status">Connecting...</div>
+                <div id="chat-messages" class="chat-messages">
+                    <div class="message assistant">
+                        <p>Hello! I can help you explore your YouTube summaries, answer questions about them, or assist with other tasks. What would you like to know?</p>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <textarea id="chat-input" placeholder="Ask about your summaries or request information..." rows="2"></textarea>
+                    <button id="send-btn">Send</button>
+                </div>
+            </section>
+
+            <!-- Summarize Tab -->
+            <section id="summarize-tab" class="tab-content">
+                <div class="summarize-form">
+                    <h2>Create New Summary</h2>
+                    <p>Enter a YouTube URL to generate a summary</p>
+                    <input type="url" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+                    <button id="summarize-btn">Summarize</button>
+                    <div id="summarize-status" class="status-message"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/app.js"></script>
+    <script src="/js/summaries.js"></script>
+    <script src="/js/chat.js"></script>
+    <script src="/js/summarize.js"></script>
+</body>
+</html>
