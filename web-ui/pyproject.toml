@@ -1,0 +1,20 @@
+[project]
+name = "web-ui"
+version = "0.1.0"
+description = "Web Dashboard for GenAI Productivity Tools"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.35.0",
+    "websockets>=14.0",
+    "aiofiles>=24.0.0",
+    "langchain-mcp-adapters>=0.1.9",
+    "langchain-openai>=0.3.27",
+    "langgraph>=0.5.2",
+    "mcp>=1.11.0",
+    "python-dotenv>=1.1.1",
+]
+
+[project.scripts]
+start = "uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload"
