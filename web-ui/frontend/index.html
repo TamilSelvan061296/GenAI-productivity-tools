@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GenAI Productivity Dashboard</title>
-    <link rel="stylesheet" href="/css/styles.css?v=2">
+    <link rel="stylesheet" href="/css/styles.css?v=3">
     <!-- Marked.js for markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
@@ -44,6 +44,13 @@
                     <button id="back-btn">&larr; Back to list</button>
                     <div id="summary-content"></div>
                 </div>
+                <!-- Highlight toolbar (floating, shown on text selection) -->
+                <div id="highlight-toolbar" class="highlight-toolbar hidden">
+                    <button class="hl-color" data-color="#fff176" title="Yellow"></button>
+                    <button class="hl-color" data-color="#a5d6a7" title="Green"></button>
+                    <button class="hl-color" data-color="#90caf9" title="Blue"></button>
+                    <button class="hl-color" data-color="#f48fb1" title="Pink"></button>
+                </div>
             </section>
 
             <!-- Chat Tab -->
@@ -73,9 +80,10 @@
         </main>
     </div>
 
-    <script src="/js/app.js?v=2"></script>
-    <script src="/js/summaries.js?v=2"></script>
-    <script src="/js/chat.js?v=2"></script>
-    <script src="/js/summarize.js?v=2"></script>
+    <script src="/js/app.js?v=3"></script>
+    <script src="/js/summaries.js?v=3"></script>
+    <script src="/js/highlights.js?v=3"></script>
+    <script src="/js/chat.js?v=3"></script>
+    <script src="/js/summarize.js?v=3"></script>
 </body>
 </html>

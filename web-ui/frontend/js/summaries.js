@@ -103,6 +103,9 @@ async function viewSummary(filename) {
 
         // Render markdown content using marked.js
         contentEl.innerHTML = marked.parse(summary.content);
+
+        // Load and apply saved highlights
+        await loadHighlights(filename);
     } catch (error) {
         console.error('Error loading summary:', error);
         contentEl.innerHTML = `<div class="empty-state"><h3>Error loading summary</h3><p>${error.message}</p></div>`;

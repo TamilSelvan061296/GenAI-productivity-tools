@@ -317,6 +317,55 @@ body {
     margin: 20px 0;
 }
 
+/* Highlight Toolbar */
+.highlight-toolbar {
+    position: absolute;
+    z-index: 100;
+    display: flex;
+    gap: 6px;
+    padding: 6px 10px;
+    background: #2c3e50;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.highlight-toolbar.hidden {
+    display: none !important;
+}
+
+.hl-color {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.15s, border-color 0.15s;
+}
+
+.hl-color:hover {
+    transform: scale(1.2);
+    border-color: #fff;
+    background: inherit;
+}
+
+.hl-color[data-color="#fff176"] { background: #fff176; }
+.hl-color[data-color="#a5d6a7"] { background: #a5d6a7; }
+.hl-color[data-color="#90caf9"] { background: #90caf9; }
+.hl-color[data-color="#f48fb1"] { background: #f48fb1; }
+
+/* User Highlights */
+mark.user-highlight {
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    padding: 1px 0;
+}
+
+mark.user-highlight:hover {
+    opacity: 0.6;
+}
+
 /* Chat */
 .chat-status {
     padding: 8px 12px;
