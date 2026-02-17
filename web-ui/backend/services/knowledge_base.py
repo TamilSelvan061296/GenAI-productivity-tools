@@ -1,3 +1,4 @@
+import json
 import aiofiles
 from pathlib import Path
 from datetime import datetime
@@ -39,29 +40,21 @@ class KnowledgeBaseService:
 
     async def get_by_filename(self, filename: str) -> Optional[SummaryDetail]:
         """Get full summary by filename (searches across all category subfolders)"""
-        # Security: prevent path traversal
-        safe_filename = Path(filename).name
+        file_path = self._find_md_file(filename)
+        if not file_path:
+            return None
 
-        # Search in root and all category subfolders
-        candidates = [self.base_path / safe_filename]
-        for category in VALID_CATEGORIES:
-            candidates.append(self.base_path / category / safe_filename)
+        async with aiofiles.open(file_path, "r", encoding="utf-8") as f:
+            content = await f.read()
 
-        for file_path in candidates:
-            if file_path.exists() and file_path.suffix == ".md":
-                async with aiofiles.open(file_path, "r", encoding="utf-8") as f:
-                    content = await f.read()
-
-                category = self._get_category(file_path)
-                return SummaryDetail(
-                    filename=safe_filename,
-                    title=self._extract_title(content),
-                    content=content,
-                    modified_date=datetime.fromtimestamp(file_path.stat().st_mtime),
-                    category=category,
-                )
-
-        return None
+        category = self._get_category(file_path)
+        return SummaryDetail(
+            filename=file_path.name,
+            title=self._extract_title(content),
+            content=content,
+            modified_date=datetime.fromtimestamp(file_path.stat().st_mtime),
+            category=category,
+        )
 
     def list_categories(self) -> list[str]:
         """Return available category folders"""
@@ -101,6 +94,48 @@ class KnowledgeBaseService:
         if parent in VALID_CATEGORIES:
             return parent
         return None
+
+    def _find_md_file(self, filename: str) -> Optional[Path]:
+        """Find a markdown file by filename across root and category subfolders"""
+        safe_filename = Path(filename).name
+        candidates = [self.base_path / safe_filename]
+        for category in VALID_CATEGORIES:
+            candidates.append(self.base_path / category / safe_filename)
+        for file_path in candidates:
+            if file_path.exists() and file_path.suffix == ".md":
+                return file_path
+        return None
+
+    def _highlights_path(self, md_path: Path) -> Path:
+        """Get the highlights JSON path for a given markdown file"""
+        return md_path.with_suffix(".highlights.json")
+
+    async def get_highlights(self, filename: str) -> list[dict]:
+        """Load highlights for a summary file"""
+        md_path = self._find_md_file(filename)
+        if not md_path:
+            return []
+        hl_path = self._highlights_path(md_path)
+        if not hl_path.exists():
+            return []
+        async with aiofiles.open(hl_path, "r", encoding="utf-8") as f:
+            data = await f.read()
+        return json.loads(data)
+
+    async def save_highlights(self, filename: str, highlights: list[dict]) -> bool:
+        """Save highlights for a summary file"""
+        md_path = self._find_md_file(filename)
+        if not md_path:
+            return False
+        hl_path = self._highlights_path(md_path)
+        if not highlights:
+            # Remove file if no highlights
+            if hl_path.exists():
+                hl_path.unlink()
+            return True
+        async with aiofiles.open(hl_path, "w", encoding="utf-8") as f:
+            await f.write(json.dumps(highlights, indent=2))
+        return True
 
     def _extract_title(self, content: str) -> str:
         """Extract title from H1 heading"""
