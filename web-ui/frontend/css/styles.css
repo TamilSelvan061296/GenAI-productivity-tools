@@ -100,12 +100,84 @@ body {
     border-color: #3498db;
 }
 
-/* Summaries Grid */
-.summaries-grid {
+/* Category Filters */
+.category-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.category-pill {
+    padding: 6px 16px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #555;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.category-pill:hover {
+    background: #f0f0f0;
+    border-color: #bbb;
+}
+
+.category-pill.active {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+/* Category Sections */
+.category-section {
+    margin-bottom: 30px;
+}
+
+.category-heading {
+    font-size: 18px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-count {
+    font-size: 13px;
+    color: #999;
+    font-weight: normal;
+}
+
+/* Category Grid */
+.category-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
 }
+
+/* Summaries Grid (fallback) */
+.summaries-grid {
+    display: block;
+}
+
+/* Category Badges */
+.category-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.badge-tech { background: #e8f4fd; color: #1a73e8; }
+.badge-business { background: #fef3e2; color: #e67e22; }
+.badge-science { background: #e8f5e9; color: #27ae60; }
+.badge-culture { background: #f3e5f5; color: #8e24aa; }
+.badge-general { background: #f5f5f5; color: #757575; }
+.badge-uncategorized { background: #f5f5f5; color: #999; }
 
 .summary-card {
     background: #f9f9f9;
@@ -114,6 +186,8 @@ body {
     border: 1px solid #eee;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 
 .summary-card:hover {
@@ -131,7 +205,14 @@ body {
 .summary-card .preview {
     color: #666;
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    flex: 1;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .summary-card .date {
@@ -442,7 +523,7 @@ button:disabled {
         text-align: center;
     }
 
-    .summaries-grid {
+    .category-grid {
         grid-template-columns: 1fr;
     }
 

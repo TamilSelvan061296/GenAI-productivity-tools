@@ -114,7 +114,14 @@ class AgentService:
    - **Motivational/Self-help**: Personal development, mindset, life advice
    - **Educational/Explainer**: Concept explanations, lectures, courses
 
-3. Create a summary adapted to the video type:
+3. Classify the video into exactly ONE of these folder categories:
+   - **tech** — Coding, software, AI, tutorials, technical demos, technology
+   - **science** — Studies, experiments, scientific explanations, health, research
+   - **business** — Startups, finance, markets, entrepreneurship, investing, productivity
+   - **culture** — Politics, society, history, documentaries, entertainment, interviews about life/society
+   - **general** — Anything that doesn't clearly fit the above categories
+
+4. Create a summary adapted to the video type:
 
    **For Technical/Tutorial:**
    - What problem does it solve? Prerequisites if any
@@ -173,19 +180,35 @@ class AgentService:
 - Main content sections (H2) appropriate to the type
 - Key Takeaways section
 
-4. Save the summary to /projects/knowledge_youtube/ using write_file tool.
-   Filename: /projects/knowledge_youtube/[Descriptive_Title].md
+5. Save the summary to the appropriate category subfolder using write_file tool.
+   Filename: /projects/knowledge_youtube/{{category}}/[Descriptive_Title].md
 
-Return a confirmation when complete."""
+   For example, if the category is "tech":
+   /projects/knowledge_youtube/tech/Building_AI_Agents.md
+
+6. End your response with this exact line (replace values accordingly):
+   CATEGORY: {{category}}"""
 
         response = await self.graph.ainvoke(
             {"messages": [{"role": "user", "content": prompt}]}
         )
 
+        final_message = response["messages"][-1].content if response["messages"] else "Processing complete"
+
+        # Parse category from LLM response
+        category = None
+        for line in final_message.split("\n"):
+            if line.strip().startswith("CATEGORY:"):
+                category = line.strip().split(":", 1)[1].strip().lower()
+                if category not in ("tech", "science", "business", "culture", "general"):
+                    category = "general"
+                break
+
         return {
             "status": "success",
-            "message": response["messages"][-1].content if response["messages"] else "Processing complete",
+            "message": final_message,
             "summary_path": None,
+            "category": category,
         }
 
 

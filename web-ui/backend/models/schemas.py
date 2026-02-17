@@ -10,6 +10,7 @@ class SummaryMetadata(BaseModel):
     file_path: str
     modified_date: datetime
     preview: str  # First 200 chars of content
+    category: Optional[str] = None  # Folder category (tech, science, business, culture, general)
 
 
 class SummaryDetail(BaseModel):
@@ -18,6 +19,7 @@ class SummaryDetail(BaseModel):
     title: str
     content: str  # Full markdown content
     modified_date: datetime
+    category: Optional[str] = None  # Folder category (tech, science, business, culture, general)
 
 
 class SummaryListResponse(BaseModel):
@@ -48,3 +50,4 @@ class SummarizeResponse(BaseModel):
     status: str
     message: str
     summary_path: Optional[str] = None
+    category: Optional[str] = None
